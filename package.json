@@ -1,0 +1,40 @@
+{
+  "name": "grunt-custom",
+  "description": "Customize files to be concatenated",
+  "version": "0.1.0",
+  "homepage": "https://github.com/felixlaumon/grunt-custom",
+  "author": {
+    "name": "Felix Lau",
+    "email": "felix@onswipe.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/felixlaumon/grunt-custom.git"
+  },
+  "bugs": {
+    "url": "https://github.com/felixlaumon/grunt-custom/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/felixlaumon/grunt-custom/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "grunt.js",
+  "bin": "bin/grunt-custom",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "grunt": "~0.3.11"
+  },
+  "devDependencies": {
+    "grunt": "~0.3.11"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
