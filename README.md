@@ -1,6 +1,8 @@
 # grunt-custom
 
-Customize files to be concatenated
+Customize files to be concatenated.
+
+When building a modulaized framework, you will need to provide a way for your end users to customize which modules to be included in their build. This tools give your users a easy way to customize the final build. For example: `grunt custom:+slideshow,+gallery,-event`
 
 ## Getting Started
 Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-custom`
@@ -14,14 +16,68 @@ grunt.loadNpmTasks('grunt-custom');
 [grunt]: https://github.com/cowboy/grunt
 [getting_started]: https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
 
-## Documentation
-_(Coming soon)_
+## Setting up the grunt.js
+
+Add the following to your grunt.js file.
+
+````javascript
+grunt.initConfig({
+  ...
+  build: {
+    essential: ['core', 'events'],
+    options: {
+      'core': ['src/core.js'],
+      'events': ['src/events.js'],
+      'slideshow': ['src/slideshow.js', 'src/slideshow-effects.js'],
+      'slideshoweffects': ['src/slideshow-effects.js'],
+      'gallery': ['src/gallery.js'],
+      'videoplayer': ['src/videoplayer.js'],
+      'musicplayer': ['src/musicplayer.js']
+    },
+    dest: 'dist/os.js'
+  }
+  ...
+});
+````
+
+## Usage
+
+````
+// By default the essential ones are concatenated
+> grunt custom
+==> 'src/core.js', 'src/events.js'
+
+// Add files with "+". Separate files with ","
+> grunt custom:+slideshow,+musicplayer
+==> 'src/core.js', 'src/events.js', 'src/slideshow.js', 'src/slideshow-effects.js'
+
+// Remove files with "-". "-" can remove files listed in essential
+> grunt custom:-events
+==> 'src/core.js'
+
+// What if you want `slideshow.js` but not `slideshow-effect.js`?
+// You can remove a particular module, which another option has included. Exlucivity beats inclusvity...
+> grunt custom:+slideshow,-slideshoweffects
+==> 'src/core.js', 'src/events.js', 'src/slideshow.js'
+
+// ... and order doesn't matter
+> grunt custom:-slideshoweffects,+slideshow
+==> 'src/core.js', 'src/events.js', 'src/slideshow.js'
+
+````
+
+You can try it out but cloning this repo, run `npm install` and run the above commands (like `grunt custom:-core`).
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
 _(Nothing yet)_
+
+## TODO
+
+- Add unit test
+- Dependency
 
 ## License
 Copyright (c) 2012 Felix Lau <felix@onswipe.com>

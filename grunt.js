@@ -3,13 +3,16 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     concat: {
-      dest: 'dist/test.js'
+      dist: {
+        src: ['src/core.js', 'src/events.js'],
+        dest: 'dist/os.js'
+      }
     },
     test: {
-      // files: ['test/**/*.js']
+      files: ['test/**/*.js']
     },
     lint: {
-      // files: ['grunt.js', 'tasks/**/*.js', 'test/**/*.js']
+      files: ['grunt.js', 'tasks/**/*.js', 'test/**/*.js']
     },
     watch: {
       // files: '<config:lint.files>',
@@ -33,14 +36,17 @@ module.exports = function(grunt) {
       globals: {}
     },
     build: {
-      essential: ['a', 'b'],
-      files: {
-        'a': ['src/a.js'],
-        'aa': ['src/aa.js'],
-        'b': ['src/b.js'],
-        'c': ['src/c.js'],
-        'd': ['src/d.js']
-      }
+      essential: ['core', 'events'],
+      options: {
+        'core': ['src/core.js'],
+        'events': ['src/events.js'],
+        'slideshow': ['src/slideshow.js', 'src/slideshow-effects.js'],
+        'slideshoweffects': ['src/slideshow-effects.js'],
+        'gallery': ['src/gallery.js'],
+        'videoplayer': ['src/videoplayer.js'],
+        'musicplayer': ['src/musicplayer.js']
+      },
+      dest: 'dist/os.js'
     }
   });
 
@@ -48,6 +54,6 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // Default task.
-  grunt.registerTask('default', 'build');
+  grunt.registerTask('default', 'lint test');
 
 };

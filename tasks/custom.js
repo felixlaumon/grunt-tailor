@@ -23,46 +23,54 @@ module.exports = function(grunt) {
     var args = [].slice.call(arguments);
     var modulesName = args.length ? args[0].split(',') : [];
     var opts = {};
+    var shouldFail;
     modulesName.forEach(function(moduleName){
+      // Check if the first letter is "+" or "-". Otherwise fail.
+      if (moduleName[0] !== '+' && moduleName[0] !== '-') {
+        grunt.log.writeln(moduleName + ' lacks an operator ("+" or "-")');
+        shouldFail = true;
+      }
       var name = moduleName.replace(/[\+]*[\-]*/g, '');
+      // Check if the name has been inputted because "exclusivity beats inclusivity"
+      // If yes, check if already excluded
+      // If already excluded, ignore the inclusivity
+      if (opts[name]) {
+        if (opts[name].op === '-') {
+          return;
+        }
+      }
       opts[name] = {
         op: moduleName[0],
-        file: grunt.config('build.files')[name]
+        file: grunt.config('build.options')[name]
       };
     });
-    console.log(opts);
+    if (shouldFail) {
+      return false;
+    }
 
     var essential = grunt.config('build.essential');
     var dest = grunt.config('build.dest') ? grunt.config('build.dest') : grunt.config('concat.dest');
-    var files = grunt.config('build.files');
+    var options = grunt.config('build.options');
 
     // Get a list of file names that should be included
     var filesToBeConcat = [];
-    Object.keys(files).forEach(function(key){
-      var file = files[key];
-      console.log('file', file);
-      console.log(essential.indexOf(key));
+    Object.keys(options).forEach(function(key){
+      var file = options[key];
       // If key is included in the essential list, concat
       if (essential.indexOf(key) !== -1) {
+        // Only only results in unique files
         filesToBeConcat = _.union(filesToBeConcat, file);
-        console.log('essential');
-        console.log(filesToBeConcat);
       // Else if key is included in opts and should be included
       } else if (opts[key] && opts[key].op === '+') {
+        // Only only results in unique files
         filesToBeConcat = _.union(filesToBeConcat, file);
-        console.log('include');
-        console.log(filesToBeConcat);
       }
 
       // Take out any files that is explicitly excluded
       if (opts[key] && opts[key].op === '-') {
         filesToBeConcat = _.difference(filesToBeConcat, file);
-        console.log('exclude');
-        console.log(filesToBeConcat);
       }
     });
-
-    console.log(filesToBeConcat);
 
     // Only concatenate files if there is something we should concatenate
     if (filesToBeConcat.length) {
