@@ -76,8 +76,9 @@ _(Nothing yet)_
 
 ## TODO
 
-- Add unit test
-- Dependency
+- Add unit tests
+- Add support depedency management
+- Add support for grunt's multitask
 
 ## License
 Copyright (c) 2012 Felix Lau <felix@onswipe.com>
