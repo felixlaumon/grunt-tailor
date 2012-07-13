@@ -6,14 +6,14 @@ module.exports = function(grunt) {
       dest: 'dist/test.js'
     },
     test: {
-      files: ['test/**/*.js']
+      // files: ['test/**/*.js']
     },
     lint: {
-      files: ['grunt.js', 'tasks/**/*.js', 'test/**/*.js']
+      // files: ['grunt.js', 'tasks/**/*.js', 'test/**/*.js']
     },
     watch: {
-      files: '<config:lint.files>',
-      tasks: 'default'
+      // files: '<config:lint.files>',
+      // tasks: 'default'
     },
     jshint: {
       options: {
@@ -48,6 +48,6 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // Default task.
-  grunt.registerTask('default', 'lint test');
+  grunt.registerTask('default', 'build');
 
 };

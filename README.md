@@ -24,5 +24,5 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 _(Nothing yet)_
 
 ## License
-Copyright (c) 2012 Felix Lau  
+Copyright (c) 2012 Felix Lau <felix@onswipe.com>
 Licensed under the MIT license.
