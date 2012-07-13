@@ -19,7 +19,7 @@ module.exports = function(grunt) {
     /*
       Usage: grunt custom:+fileA-fileB+fileC
     */
-    var _ = require('underscore');
+    var _ = grunt.utils._;
     var args = [].slice.call(arguments);
     var modulesName = args.length ? args[0].split(',') : [];
     var opts = {};
@@ -50,12 +50,18 @@ module.exports = function(grunt) {
 
     var essential = grunt.config('build.essential');
     var dest = grunt.config('build.dest') ? grunt.config('build.dest') : grunt.config('concat.dest');
+    // FIXME: why grunt.template.process doesn't works?
+    dest = _.template(dest, grunt.config());
     var options = grunt.config('build.options');
 
     // Get a list of file names that should be included
     var filesToBeConcat = [];
     Object.keys(options).forEach(function(key){
       var file = options[key];
+      file = file.map(function(f){
+        // FIXME: why grunt.template.process or grunt.file.expandFiles doesn't works?
+        return _.template(f, grunt.config());
+      });
       // If key is included in the essential list, concat
       if (essential.indexOf(key) !== -1) {
         // Only only results in unique files

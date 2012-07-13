@@ -29,8 +29,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "grunt": "~0.3.11",
-    "underscore": "*"
+    "grunt": "~0.3.11"
   },
   "devDependencies": {
     "grunt": "~0.3.11"

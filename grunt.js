@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    pkg: '<json:package.json>',
     concat: {
       dist: {
         src: ['src/core.js', 'src/events.js'],
@@ -38,15 +39,15 @@ module.exports = function(grunt) {
     build: {
       essential: ['core', 'events'],
       options: {
-        'core': ['src/core.js'],
-        'events': ['src/events.js'],
+        'core': ['src/<%= pkg.name %>-core.js'],
+        'events': ['src/<%= pkg.name %>-events.js'],
         'slideshow': ['src/slideshow.js', 'src/slideshow-effects.js'],
         'slideshoweffects': ['src/slideshow-effects.js'],
         'gallery': ['src/gallery.js'],
         'videoplayer': ['src/videoplayer.js'],
         'musicplayer': ['src/musicplayer.js']
       },
-      dest: 'dist/os.js'
+      dest: '<config:concat.dist.dest>'
     }
   });
 
