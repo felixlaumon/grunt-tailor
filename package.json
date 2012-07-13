@@ -1,6 +1,6 @@
 {
   "name": "grunt-custom",
-  "description": "Customize files to be concatenated",
+  "description": "A grunt task to customize files to be concatenated for end users",
   "version": "0.1.0",
   "homepage": "https://github.com/felixlaumon/grunt-custom",
   "author": {
