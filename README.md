@@ -78,7 +78,27 @@ _(Nothing yet)_
 
 - Add unit tests
 - Add support depedency management
-- Add support for grunt's multitask
+- Add support for grunt's multitask?
+- Add support for option name to be listed in another option
+````javascript
+{
+  options: {
+  ...
+  'multimedia': ['videoplayer', 'musicplayer'],
+  ...
+  }
+}
+````
+- Add shorthand for single file (no need for array)
+````javascript
+{
+  options: {
+  ...
+  'videoplayer': 'src/events.js',
+  ...
+  }
+}
+````
 
 ## License
 Copyright (c) 2012 Felix Lau <felix@onswipe.com>
