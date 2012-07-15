@@ -79,13 +79,13 @@ module.exports = function(grunt) {
     });
 
     // Insert intro, if provided
-    if (grunt.config('build.intro').length) {
+    if (grunt.config('build.intro') && grunt.config('build.intro').length) {
       console.log(grunt.config('build.intro'));
       filesToBeConcat = _.union(grunt.config('build.intro'), filesToBeConcat);
     }
 
     // Insert outro, if provided
-    if (grunt.config('build.outro').length) {
+    if (grunt.config('build.outro') && grunt.config('build.outro').length) {
       filesToBeConcat = _.union(filesToBeConcat, grunt.config('build.outro'));
     }
 
