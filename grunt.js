@@ -37,6 +37,8 @@ module.exports = function(grunt) {
       globals: {}
     },
     build: {
+      intro: ['src/intro.js'],
+      outro: ['src/outro.js'],
       essential: ['core', 'events'],
       options: {
         'core': ['src/<%= pkg.name %>-core.js'],

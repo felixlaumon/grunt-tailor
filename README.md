@@ -24,6 +24,8 @@ Add the following to your grunt.js file.
 grunt.initConfig({
   ...
   build: {
+    intro; ['src/intro.js'],
+    outro: ['src/outro.js'],
     essential: ['core', 'events'],
     options: {
       'core': ['src/core.js'],
@@ -43,26 +45,28 @@ grunt.initConfig({
 ## Usage
 
 ````
-// By default the essential ones are concatenated
+// By default the essential ones are concatenated, along with the intro and outro
 > grunt custom
-==> 'src/core.js', 'src/events.js'
+==> 'src/intro.js', 'src/core.js', 'src/events.js', 'src/outro.js'
 
 // Add files with "+". Separate files with ","
 > grunt custom:+slideshow,+musicplayer
-==> 'src/core.js', 'src/events.js', 'src/slideshow.js', 'src/slideshow-effects.js'
+==> 'src/intro.js', 'src/core.js', 'src/events.js', 'src/slideshow.js', 'src/slideshow-effects.js', 'src/outro.js'
 
 // Remove files with "-". "-" can remove files listed in essential
 > grunt custom:-events
-==> 'src/core.js'
+==> 'src/intro.js', 'src/core.js', 'src/outro.js'
 
 // What if you want `slideshow.js` but not `slideshow-effect.js`?
 // You can remove a particular module, which another option has included. Exlucivity beats inclusvity...
 > grunt custom:+slideshow,-slideshoweffects
-==> 'src/core.js', 'src/events.js', 'src/slideshow.js'
+==> 'src/intro.js', 'src/core.js', 'src/events.js', 'src/slideshow.js', 'src/outro.js'
 
 // ... and order doesn't matter
 > grunt custom:-slideshoweffects,+slideshow
-==> 'src/core.js', 'src/events.js', 'src/slideshow.js'
+==> 'src/intro.js', 'src/core.js', 'src/events.js', 'src/slideshow.js', 'src/outro.js'
+
+// Intro and outro are *always* included
 
 ````
 

@@ -15,9 +15,9 @@ module.exports = function(grunt) {
   // TASKS
   // ==========================================================================
 
-  grunt.registerTask('custom', 'Your task description goes here.', function() {
+  grunt.registerTask('custom', 'Customize files to be concatenated', function() {
     /*
-      Usage: grunt custom:+fileA-fileB+fileC
+      Usage: grunt custom:+optionA,-optionB,+optionC
     */
     var _ = grunt.utils._;
     var args = [].slice.call(arguments);
@@ -77,6 +77,17 @@ module.exports = function(grunt) {
         filesToBeConcat = _.difference(filesToBeConcat, file);
       }
     });
+
+    // Insert intro, if provided
+    if (grunt.config('build.intro').length) {
+      console.log(grunt.config('build.intro'));
+      filesToBeConcat = _.union(grunt.config('build.intro'), filesToBeConcat);
+    }
+
+    // Insert outro, if provided
+    if (grunt.config('build.outro').length) {
+      filesToBeConcat = _.union(filesToBeConcat, grunt.config('build.outro'));
+    }
 
     // Only concatenate files if there is something we should concatenate
     if (filesToBeConcat.length) {
