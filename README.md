@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/felixlaumon/grunt-custom.png)](http://travis-ci.org/felixlaumon/grunt-custom)
 # grunt-custom
 
 Customize files to be concatenated.
