@@ -1,6 +1,6 @@
 # grunt-custom
 
-Customize files to be concatenated.
+Customize files to be concatenated, jQuery 1.8-style.
 
 When building a modulaized framework, you will need to provide a way for your end users to customize which modules to be included in their build. This tools give your users a easy way to customize the final build. For example: `grunt custom:+slideshow,+gallery,-event`
 
@@ -24,19 +24,20 @@ Add the following to your grunt.js file.
 grunt.initConfig({
   ...
   build: {
-    intro; ['src/intro.js'],
-    outro: ['src/outro.js'],
+    intro; ['intro.js'],
+    outro: ['outro.js'],
     essential: ['core', 'events'],
     options: {
-      'core': ['src/core.js'],
-      'events': ['src/events.js'],
-      'slideshow': ['src/slideshow.js', 'src/slideshow-effects.js'],
-      'slideshoweffects': ['src/slideshow-effects.js'],
-      'gallery': ['src/gallery.js'],
-      'videoplayer': ['src/videoplayer.js'],
-      'musicplayer': ['src/musicplayer.js']
+      'core': ['core.js'],
+      'events': ['events.js'],
+      'slideshow': ['slideshow.js', 'slideshow-effects.js'],
+      'slideshoweffects': ['slideshow-effects.js'],
+      'gallery': ['gallery.js'],
+      'videoplayer': ['videoplayer.js'],
+      'musicplayer': ['musicplayer.js']
     },
-    dest: 'dist/os.js'
+    dest: 'dist/os.js',
+    prefix: 'src/'
   }
   ...
 });
@@ -71,6 +72,31 @@ grunt.initConfig({
 ````
 
 You can try it out but cloning this repo, run `npm install` and run the above commands (like `grunt custom:-core`).
+
+You can also run the task with helper, like this:
+
+````javascript
+grunt.helper('custom', CUSTOM_FILES, OPTIONS);
+// CUSTOM_FILES is what you will type after `grunt custom:`
+// OPTIONS is the `build` you set in grunt.js. If you don't provide this, it
+// defaults to grunt.js's one.
+
+// For example:
+grunt.helper('custom', '+slideshow', {
+  essential: ['core', 'events'],
+  options: {
+    'core': ['<%= pkg.name %>-core.js'],
+    'events': ['<%= pkg.name %>-events.js'],
+    'slideshow': ['slideshow.js', 'slideshow-effects.js'],
+    'slideshoweffects': ['slideshow-effects.js'],
+    'gallery': ['gallery.js'],
+    'videoplayer': ['videoplayer.js'],
+    'musicplayer': ['musicplayer.js']
+  },
+  dest: '<config:concat.dist.dest>',
+  prefix: 'src/'
+});
+````
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
