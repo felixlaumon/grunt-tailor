@@ -56,7 +56,7 @@ module.exports = function(grunt) {
     }
 
     var essential = opts.essential;
-    var dest = opts.dest ? opts.dest : grunt.config('concat.dest');
+    var dest = opts.dest ? opts.dest : grunt.config('concat.dist.dest');
     // FIXME: why grunt.template.process doesn't works?
     dest = _.template(dest, grunt.config());
     var options = opts.options;
