@@ -15,14 +15,21 @@ module.exports = function(grunt) {
   // TASKS
   // ==========================================================================
 
-  grunt.registerTask('custom', 'Customize files to be concatenated', function() {
-    /*
-      Usage: grunt custom:+optionA,-optionB,+optionC
-    */
+  /*
+    Usage: grunt custom:+optionA,-optionB,+optionC
+  */
+  grunt.registerTask('custom', 'Customize files to be concatenated', function(input) {
+    grunt.helper('custom', input);
+  });
+
+  grunt.registerHelper('custom', function(input, opts) {
     var _ = grunt.utils._;
-    var args = [].slice.call(arguments);
-    var modulesName = args.length ? args[0].split(',') : [];
-    var opts = {};
+    opts = opts || grunt.config('build');
+
+    // Transform string input +optionA,-optionB,+optionC into an object
+    // { ..., optionA: { op: '+', file: [...] } ,...}
+    var modulesName = (input && input.length) ? input.split(',') : [];
+    var buildOpts = {};
     var shouldFail;
     modulesName.forEach(function(moduleName){
       // Check if the first letter is "+" or "-". Otherwise fail.
@@ -34,25 +41,25 @@ module.exports = function(grunt) {
       // Check if the name has been inputted because "exclusivity beats inclusivity"
       // If yes, check if already excluded
       // If already excluded, ignore the inclusivity
-      if (opts[name]) {
-        if (opts[name].op === '-') {
+      if (buildOpts[name]) {
+        if (buildOpts[name].op === '-') {
           return;
         }
       }
-      opts[name] = {
+      buildOpts[name] = {
         op: moduleName[0],
-        file: grunt.config('build.options')[name]
+        file: opts.options[name]
       };
     });
     if (shouldFail) {
       return false;
     }
 
-    var essential = grunt.config('build.essential');
-    var dest = grunt.config('build.dest') ? grunt.config('build.dest') : grunt.config('concat.dest');
+    var essential = opts.essential;
+    var dest = opts.dest ? opts.dest : grunt.config('concat.dest');
     // FIXME: why grunt.template.process doesn't works?
     dest = _.template(dest, grunt.config());
-    var options = grunt.config('build.options');
+    var options = opts.options;
 
     // Get a list of file names that should be included
     var filesToBeConcat = [];
@@ -66,26 +73,33 @@ module.exports = function(grunt) {
       if (essential.indexOf(key) !== -1) {
         // Only only results in unique files
         filesToBeConcat = _.union(filesToBeConcat, file);
-      // Else if key is included in opts and should be included
-      } else if (opts[key] && opts[key].op === '+') {
+      // Else if key is included in buildOpts and should be included
+      } else if (buildOpts[key] && buildOpts[key].op === '+') {
         // Only only results in unique files
         filesToBeConcat = _.union(filesToBeConcat, file);
       }
 
       // Take out any files that is explicitly excluded
-      if (opts[key] && opts[key].op === '-') {
+      if (buildOpts[key] && buildOpts[key].op === '-') {
         filesToBeConcat = _.difference(filesToBeConcat, file);
       }
     });
 
     // Insert intro, if provided
-    if (grunt.config('build.intro') && grunt.config('build.intro').length) {
-      filesToBeConcat = _.union(grunt.config('build.intro'), filesToBeConcat);
+    if (opts.intro && opts.intro.length) {
+      filesToBeConcat = _.union(opts.intro, filesToBeConcat);
     }
 
     // Insert outro, if provided
-    if (grunt.config('build.outro') && grunt.config('build.outro').length) {
-      filesToBeConcat = _.union(filesToBeConcat, grunt.config('build.outro'));
+    if (opts.outro && opts.outro.length) {
+      filesToBeConcat = _.union(filesToBeConcat, opts.outro);
+    }
+
+    // Prefix file path if necessary
+    if (opts.prefix) {
+      filesToBeConcat = filesToBeConcat.map(function(fileName) {
+        return opts.prefix + fileName;
+      });
     }
 
     // Only concatenate files if there is something we should concatenate
@@ -97,7 +111,7 @@ module.exports = function(grunt) {
     }
 
     // TODO: defaults separator to grunt's one
-    var separator = grunt.config('build.separator') ? grunt.config('build.separator') : '\n';
+    var separator = opts.separator ? opts.separator : '\n';
     var src = grunt.helper('concat', filesToBeConcat, {separator: separator});
     grunt.file.write(dest, src);
 

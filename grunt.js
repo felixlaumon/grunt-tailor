@@ -56,6 +56,24 @@ module.exports = function(grunt) {
   // Load local tasks.
   grunt.loadTasks('tasks');
 
+  // Test helper
+  grunt.registerTask('customViaHelper', 'Demo of using grunt-custom as helper', function() {
+    grunt.helper('custom', '+slideshow', {
+      essential: ['core', 'events'],
+      options: {
+        'core': ['<%= pkg.name %>-core.js'],
+        'events': ['<%= pkg.name %>-events.js'],
+        'slideshow': ['slideshow.js', 'slideshow-effects.js'],
+        'slideshoweffects': ['slideshow-effects.js'],
+        'gallery': ['gallery.js'],
+        'videoplayer': ['videoplayer.js'],
+        'musicplayer': ['musicplayer.js']
+      },
+      dest: '<config:concat.dist.dest>',
+      prefix: 'src/'
+    });
+  });
+
   // Default task.
   grunt.registerTask('default', 'lint test');
 
