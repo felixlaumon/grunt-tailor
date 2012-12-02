@@ -36,7 +36,9 @@ module.exports = function(grunt) {
       },
       globals: {}
     },
-    build: {
+
+    // Example grunt-tailor config
+    tailor: {
       intro: ['src/intro.js'],
       outro: ['src/outro.js'],
       essential: ['core', 'events'],
