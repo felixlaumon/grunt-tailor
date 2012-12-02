@@ -24,7 +24,6 @@ module.exports = function(grunt) {
 
   grunt.registerHelper('tailor', function(input, opts) {
     var _ = grunt.utils._;
-    opts = opts || grunt.config('build');
 
     // Transform string input +optionA,-optionB,+optionC into an object
     // { ..., optionA: { op: '+', file: [...] } ,...}
@@ -55,6 +54,7 @@ module.exports = function(grunt) {
       return false;
     }
 
+    opts = opts || grunt.config('tailor');
     var essential = opts.essential;
     var dest = opts.dest ? opts.dest : grunt.config('concat.dist.dest');
     dest = grunt.template.process(dest, grunt.config());
