@@ -57,8 +57,8 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // Test helper
-  grunt.registerTask('customViaHelper', 'Demo of using grunt-custom as helper', function() {
-    grunt.helper('custom', '+slideshow', {
+  grunt.registerTask('tailorViaHelper', 'Demo of using grunt-tailor as helper', function() {
+    grunt.helper('tailor', '+slideshow', {
       essential: ['core', 'events'],
       options: {
         'core': ['<%= pkg.name %>-core.js'],

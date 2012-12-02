@@ -20,7 +20,7 @@ var grunt = require('grunt');
     test.ifError(value)
 */
 
-exports['custom'] = {
+exports['tailor'] = {
   setUp: function(done) {
     // setup here
     done();

@@ -1,16 +1,16 @@
-# grunt-custom
+# grunt-tailor
 
 Customize files to be concatenated, jQuery 1.8-style.
 
-When building a modulaized framework, you will need to provide a way for your end users to customize which modules to be included in their build. This tools give your users a easy way to customize the final build. For example: `grunt custom:+slideshow,+gallery,-event`
+When building a modulaized framework, you will need to provide a way for your end users to customize which modules to be included in their build. This tools give your users a easy way to customize the final build. For example: `grunt tailor:+slideshow,+gallery,-event`
 
 ## Getting Started
-Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-custom`
+Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-tailor`
 
 Then add this line to your project's `grunt.js` gruntfile:
 
 ```javascript
-grunt.loadNpmTasks('grunt-custom');
+grunt.loadNpmTasks('grunt-tailor');
 ```
 
 [grunt]: https://github.com/cowboy/grunt
@@ -47,24 +47,24 @@ grunt.initConfig({
 
 ````
 // By default the essential ones are concatenated, along with the intro and outro
-> grunt custom
+> grunt tailor
 ==> 'src/intro.js', 'src/core.js', 'src/events.js', 'src/outro.js'
 
 // Add files with "+". Separate files with ","
-> grunt custom:+slideshow,+musicplayer
+> grunt tailor:+slideshow,+musicplayer
 ==> 'src/intro.js', 'src/core.js', 'src/events.js', 'src/slideshow.js', 'src/slideshow-effects.js', 'src/outro.js'
 
 // Remove files with "-". "-" can remove files listed in essential
-> grunt custom:-events
+> grunt tailor:-events
 ==> 'src/intro.js', 'src/core.js', 'src/outro.js'
 
 // What if you want `slideshow.js` but not `slideshow-effect.js`?
 // You can remove a particular module, which another option has included. Exlucivity beats inclusvity...
-> grunt custom:+slideshow,-slideshoweffects
+> grunt tailor:+slideshow,-slideshoweffects
 ==> 'src/intro.js', 'src/core.js', 'src/events.js', 'src/slideshow.js', 'src/outro.js'
 
 // ... and order doesn't matter
-> grunt custom:-slideshoweffects,+slideshow
+> grunt tailor:-slideshoweffects,+slideshow
 ==> 'src/intro.js', 'src/core.js', 'src/events.js', 'src/slideshow.js', 'src/outro.js'
 
 // Intro and outro are *always* included
@@ -76,13 +76,13 @@ You can try it out but cloning this repo, run `npm install` and run the above co
 You can also run the task with helper, like this:
 
 ````javascript
-grunt.helper('custom', CUSTOM_FILES, OPTIONS);
-// CUSTOM_FILES is what you will type after `grunt custom:`
+grunt.helper('tailor', CUSTOM_FILES, OPTIONS);
+// CUSTOM_FILES is what you will type after `grunt tailor:`
 // OPTIONS is the `build` you set in grunt.js. If you don't provide this, it
 // defaults to grunt.js's one.
 
 // For example:
-grunt.helper('custom', '+slideshow', {
+grunt.helper('tailor', '+slideshow', {
   essential: ['core', 'events'],
   options: {
     'core': ['<%= pkg.name %>-core.js'],

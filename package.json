@@ -1,27 +1,27 @@
 {
-  "name": "grunt-custom",
+  "name": "grunt-tailor",
   "description": "A grunt task to customize files to be concatenated for end users",
   "version": "0.1.1",
-  "homepage": "https://github.com/felixlaumon/grunt-custom",
+  "homepage": "https://github.com/felixlaumon/grunt-tailor",
   "author": {
     "name": "Felix Lau",
     "email": "felix@onswipe.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/felixlaumon/grunt-custom.git"
+    "url": "git://github.com/felixlaumon/grunt-tailor.git"
   },
   "bugs": {
-    "url": "https://github.com/felixlaumon/grunt-custom/issues"
+    "url": "https://github.com/felixlaumon/grunt-tailor/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/felixlaumon/grunt-custom/blob/master/LICENSE-MIT"
+      "url": "https://github.com/felixlaumon/grunt-tailor/blob/master/LICENSE-MIT"
     }
   ],
   "main": "grunt.js",
-  "bin": "bin/grunt-custom",
+  "bin": "bin/grunt-tailor",
   "engines": {
     "node": "*"
   },

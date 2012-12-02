@@ -1,6 +1,6 @@
 /*
- * grunt-custom
- * https://github.com/felixlaumon/grunt-custom
+ * grunt-tailor
+ * https://github.com/felixlaumon/grunt-tailor
  *
  * Copyright (c) 2012 Felix Lau
  * Licensed under the MIT license.
@@ -16,13 +16,13 @@ module.exports = function(grunt) {
   // ==========================================================================
 
   /*
-    Usage: grunt custom:+optionA,-optionB,+optionC
+    Usage: grunt tailor:+optionA,-optionB,+optionC
   */
-  grunt.registerTask('custom', 'Customize files to be concatenated', function(input) {
-    grunt.helper('custom', input);
+  grunt.registerTask('tailor', 'Customize files to be concatenated', function(input) {
+    grunt.helper('tailor', input);
   });
 
-  grunt.registerHelper('custom', function(input, opts) {
+  grunt.registerHelper('tailor', function(input, opts) {
     var _ = grunt.utils._;
     opts = opts || grunt.config('build');
 
