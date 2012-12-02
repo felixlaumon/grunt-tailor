@@ -57,8 +57,7 @@ module.exports = function(grunt) {
 
     var essential = opts.essential;
     var dest = opts.dest ? opts.dest : grunt.config('concat.dist.dest');
-    // FIXME: why grunt.template.process doesn't works?
-    dest = _.template(dest, grunt.config());
+    dest = grunt.template.process(dest, grunt.config());
     var options = opts.options;
 
     // Get a list of file names that should be included
