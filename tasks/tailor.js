@@ -64,11 +64,8 @@ module.exports = function(grunt) {
     // Get a list of file names that should be included
     var filesToBeConcat = [];
     Object.keys(options).forEach(function(key){
-      var file = options[key];
-      file = file.map(function(f){
-        // FIXME: why grunt.template.process or grunt.file.expandFiles doesn't works?
-        return _.template(f, grunt.config());
-      });
+      // Expand the list of files
+      var file = grunt.file.expandFiles(options[key]);
       // If key is included in the essential list, concat
       if (essential.indexOf(key) !== -1) {
         // Only only results in unique files
