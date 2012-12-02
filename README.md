@@ -23,7 +23,7 @@ Add the following to your grunt.js file.
 ````javascript
 grunt.initConfig({
   ...
-  build: {
+  tailor: {
     intro; ['intro.js'],
     outro: ['outro.js'],
     essential: ['core', 'events'],
