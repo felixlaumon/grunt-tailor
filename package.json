@@ -38,8 +38,5 @@
   },
   "keywords": [
     "gruntplugin"
-  ],
-  "dependencies": {
-    "grunt-contrib-concat": "~0.2.0"
-  }
+  ]
 }
