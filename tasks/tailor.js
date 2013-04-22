@@ -2,71 +2,22 @@
  * grunt-tailor
  * https://github.com/felixlaumon/grunt-tailor
  *
- * Copyright (c) 2012 Felix Lau
+ * Copyright (c) 2013 Felix Lau
  * Licensed under the MIT license.
  */
 
-/**
- * Transform string input into an object
- *
- * @param {String} input Comma separated list e.g. "+moduleA,-moduleB"
- *
- * @return {Object} Mapping of the comma separated string to the name
- * of the module and an array of files. For example, for the input of
- * "+moduleA,-moduleB", { moduleA: '+', moduleB: '-' } will be returned.
- */
-function parseInput (input) {
-  var modulesNames = (input && input.length) ? input.split(',') : [];
-  var inputObj = {};
-
-  modulesNames.forEach(function (moduleName) {
-    var op = moduleName[0];
-    var name = moduleName.replace(/[\+]*[\-]*/g, '');
-
-    // Check if the first letter is "+" or "-".
-    if (op !== '+' && op !== '-') {
-      grunt.warn(moduleName + ' does not have a proper operator ("+" or "-")');
-    }
-
-    // Ignore any module that has been excluded. E.g. moduleA will not be
-    // included if the input is "+moduleA,+moduleB,-moduleA"
-    if (inputObj[name] === '-') {
-      return;
-    }
-
-    inputObj[name] = op;
-  });
-
-  return inputObj;
-}
-
-function filesToConcat (input, moduleList) {
-
-}
-
 module.exports = function(grunt) {
-
-  // Please see the grunt documentation for more information regarding task and
-  // helper creation: https://github.com/cowboy/grunt/blob/master/docs/toc.md
-
-  // ==========================================================================
-  // TASKS
-  // ==========================================================================
-
   /*
     Usage: grunt tailor:+optionA,-optionB,+optionC
   */
-  grunt.registerTask('tailor', 'Customize files to be concatenated', function(input) {
-    grunt.helper('tailor', input);
-  });
-
-  grunt.registerHelper('tailor', function(inputStr, opts) {
-    var _ = grunt.utils._;
-    opts = opts || grunt.config('tailor');
+  grunt.registerTask('tailor', 'Customize files to be concatenated', function() {
+    var inputStr = this.args[0];
+    var _ = grunt.util._;
+    var opts = grunt.config.get('tailor');
     var essential = opts.essential;
-    var dest = opts.dest ? opts.dest : grunt.config('concat.dist.dest');
+    var dest = opts.dest ? opts.dest : grunt.config.get('concat.dist.dest');
     dest = grunt.template.process(dest, grunt.config());
-    var moduleList = opts.options;
+    var moduleList = opts.src;
 
     // Parse input to object
     var input = parseInput(inputStr);
@@ -75,7 +26,7 @@ module.exports = function(grunt) {
     var filesToConcat = [];
     Object.keys(moduleList).forEach(function(key){
       // Look at each module and see if it should be included
-      var files = grunt.file.expandFiles(moduleList[key]);
+      var files = grunt.file.expand(moduleList[key]);
 
       // If key is included in the essential list, concat
       if (~essential.indexOf(key)) {
@@ -118,9 +69,7 @@ module.exports = function(grunt) {
       return false;
     }
 
-    // TODO: defaults separator to grunt's one
-    var separator = opts.separator ? opts.separator : '\n';
-    var src = grunt.helper('concat', filesToConcat, {separator: separator});
+    var src = concat(filesToConcat, {separator: opts.separator});
     grunt.file.write(dest, src);
 
     // Fail task if errors were logged.
@@ -129,5 +78,51 @@ module.exports = function(grunt) {
     // Otherwise, print a success message.
     grunt.log.writeln('File "' + dest + '" created.');
   });
+
+  /**
+   * Transform string input into an object
+   *
+   * @param {String} input Comma separated list e.g. "+moduleA,-moduleB"
+   *
+   * @return {Object} Mapping of the comma separated string to the name
+   * of the module and an array of files. For example, for the input of
+   * "+moduleA,-moduleB", { moduleA: '+', moduleB: '-' } will be returned.
+   *
+   * @api private
+   */
+  function parseInput (input) {
+    var modulesNames = (input && input.length) ? input.split(',') : [];
+    var inputObj = {};
+
+    modulesNames.forEach(function (moduleName) {
+      var op = moduleName[0];
+      var name = moduleName.replace(/[\+]*[\-]*/g, '');
+
+      // Check if the first letter is "+" or "-".
+      if (op !== '+' && op !== '-') {
+        grunt.warn(moduleName + ' does not have a proper operator ("+" or "-")');
+      }
+
+      // Ignore any module that has been excluded. E.g. moduleA will not be
+      // included if the input is "+moduleA,+moduleB,-moduleA"
+      if (inputObj[name] === '-') {
+        return;
+      }
+
+      inputObj[name] = op;
+    });
+
+    return inputObj;
+  }
+
+  // From https://github.com/gruntjs/grunt-lib-legacyhelpers/blob/master/lib/legacyhelpers.js
+  function concat (files, options) {
+    options = grunt.util._.defaults(options || {}, {
+      separator: grunt.util.linefeed
+    });
+    return files ? files.map(function(filepath) {
+      return grunt.file.read(filepath);
+    }).join(grunt.util.normalizelf(options.separator)) : '';
+  }
 
 };

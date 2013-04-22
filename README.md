@@ -1,33 +1,38 @@
 # grunt-tailor
 
-Customize files to be concatenated, jQuery 1.8-style.
+> Allows end users to easily create custom builds of your library
 
-When building a modulaized framework, you will need to provide a way for your end users to customize which modules to be included in their build. This tools give your users a easy way to customize the final build. For example: `grunt tailor:+slideshow,+gallery,-event`
+When building a modulaized library, you will need to provide a way for your end users to customize what modules to be included in their custom build. This tools give your users a easy way to customize the final build. For example: `grunt tailor:+slideshow,+gallery,-event`
+
+This task is inspired by jQuery's custom build task.
 
 ## Getting Started
-Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-tailor`
+This plugin requires Grunt `~0.4.1`
 
-Then add this line to your project's `grunt.js` gruntfile:
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
-```javascript
-grunt.loadNpmTasks('grunt-tailor');
+```shell
+npm install grunt-tailor --save-dev
 ```
 
-[grunt]: https://github.com/cowboy/grunt
-[getting_started]: https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
+One the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
+
+```js
+grunt.loadNpmTasks('grunt-tailor');
+```
 
 ## Setting up the grunt.js
 
 Add the following to your grunt.js file.
 
-````javascript
+````js
 grunt.initConfig({
   ...
   tailor: {
     intro; ['intro.js'],
     outro: ['outro.js'],
     essential: ['core', 'events'],
-    options: {
+    src: {
       'core': ['core.js'],
       'events': ['events.js'],
       'slideshow': ['slideshow.js', 'slideshow-effects.js'],
@@ -68,51 +73,18 @@ grunt.initConfig({
 ==> 'src/intro.js', 'src/core.js', 'src/events.js', 'src/slideshow.js', 'src/outro.js'
 
 // Intro and outro are *always* included
-
 ````
 
-You can try it out but cloning this repo, run `npm install` and run the above commands (like `grunt custom:-core`).
+You can try it out but cloning this repo, run `npm install` and run the above commands (like `grunt tailor:+gallery`).
 
-You can also run the task with helper, like this:
-
-````javascript
-grunt.helper('tailor', CUSTOM_FILES, OPTIONS);
-// CUSTOM_FILES is what you will type after `grunt tailor:`
-// OPTIONS is the `build` you set in grunt.js. If you don't provide this, it
-// defaults to grunt.js's one.
-
-// For example:
-grunt.helper('tailor', '+slideshow', {
-  essential: ['core', 'events'],
-  options: {
-    'core': ['<%= pkg.name %>-core.js'],
-    'events': ['<%= pkg.name %>-events.js'],
-    'slideshow': ['slideshow.js', 'slideshow-effects.js'],
-    'slideshoweffects': ['slideshow-effects.js'],
-    'gallery': ['gallery.js'],
-    'videoplayer': ['videoplayer.js'],
-    'musicplayer': ['musicplayer.js']
-  },
-  dest: '<config:concat.dist.dest>',
-  prefix: 'src/'
-});
-````
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
-
-## Release History
-_(Nothing yet)_
-
-## TODO
+## Todo
 
 - Add unit tests
 - Add support depedency management
-- Add support for grunt's multitask?
 - Add support for option name to be listed in another option
-````javascript
+````js
 {
-  options: {
+  src: {
   ...
   'multimedia': ['videoplayer', 'musicplayer'],
   ...
@@ -120,9 +92,9 @@ _(Nothing yet)_
 }
 ````
 - Add shorthand for single file (no need for array)
-````javascript
+````js
 {
-  options: {
+  src: {
   ...
   'videoplayer': 'src/events.js',
   ...
@@ -130,6 +102,8 @@ _(Nothing yet)_
 }
 ````
 
-## License
-Copyright (c) 2012 Felix Lau <felix@onswipe.com>
-Licensed under the MIT license.
+## Contributing
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+
+## Release History
+_(Nothing yet)_
